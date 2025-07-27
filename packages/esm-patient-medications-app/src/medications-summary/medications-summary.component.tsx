@@ -13,10 +13,10 @@ export interface MedicationsSummaryProps {
 export default function MedicationsSummary({ patient }: MedicationsSummaryProps) {
   React.useEffect(() => {
     if (localStorage.getItem('openClinicalDrug')) {
-      launchAddDrugWorkspace();
+      launchAddDrugWorkspace()
     }
-    // }, []); //Uncomment this line and comment the below line to get it work properly. Commenting here since there is an eslint error.
-  });
+  }, []);
+  
   const { t } = useTranslation();
   const launchAddDrugWorkspace =
     useLaunchWorkspaceRequiringVisit<AddDrugOrderWorkspaceAdditionalProps>('add-drug-order');
