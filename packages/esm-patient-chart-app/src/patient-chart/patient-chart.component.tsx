@@ -6,10 +6,10 @@ import {
   useWorkspaces,
   useLeftNav,
 } from '@openmrs/esm-framework';
-import { getPatientChartStore } from '@openmrs/esm-patient-common-lib';
+import { getPatientChartStore, useVisitOrOfflineVisit } from '@openmrs/esm-patient-common-lib';
 import classNames from 'classnames';
 import React, { useEffect, useMemo, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import { spaBasePath } from '../constants';
 import Loader from '../loader/loader.component';
 import ChartReview from '../patient-chart/chart-review/chart-review.component';
@@ -46,6 +46,12 @@ const PatientChart: React.FC = () => {
 
   useLeftNav({ name: 'patient-chart-dashboard-slot', basePath: leftNavBasePath });
 
+  const query = new URLSearchParams(useLocation().search);
+  if (query.get('drug')) {
+    localStorage.setItem('openClinicalDrug', query.get('drug'));
+  }
+  useVisitOrOfflineVisit(patientUuid);
+  // console.log(useVisitOrOfflineVisit(patientUuid))
   return (
     <>
       <SideMenuPanel />

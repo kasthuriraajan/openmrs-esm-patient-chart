@@ -37,6 +37,16 @@ export default function DrugSearch({ openOrderForm }: DrugSearchProps) {
     searchInputRef.current?.focus();
   };
 
+  const getSearchTerm = () => {
+    if (localStorage.getItem('openClinicalDrug')) {
+      const openClinicalDrugSearch = localStorage.getItem('openClinicalDrug');
+      // localStorage.removeItem('openClinicalDrug')
+      return openClinicalDrugSearch;
+    } else {
+      return debouncedSearchTerm;
+    }
+  };
+
   return (
     <div className={styles.searchPopupContainer}>
       <ResponsiveWrapper>
@@ -50,7 +60,7 @@ export default function DrugSearch({ openOrderForm }: DrugSearchProps) {
         />
       </ResponsiveWrapper>
       <OrderBasketSearchResults
-        searchTerm={debouncedSearchTerm}
+        searchTerm={getSearchTerm()}
         openOrderForm={openOrderForm}
         focusAndClearSearchInput={focusAndClearSearchInput}
       />

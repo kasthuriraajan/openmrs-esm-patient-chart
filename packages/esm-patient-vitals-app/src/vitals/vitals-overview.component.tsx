@@ -174,6 +174,30 @@ const VitalsOverview: React.FC<VitalsOverviewProps> = ({ patientUuid, patient, p
     },
   });
 
+  const getSortedBP = () => {
+    let sortedVitals = vitals.sort(
+      (vitalA, vitalB) => new Date(vitalB.date).getTime() - new Date(vitalA.date).getTime(),
+    );
+    sortedVitals = sortedVitals.filter((vital) => vital.systolic > 0 && vital.diastolic > 0);
+    return sortedVitals;
+  };
+
+  const handleOpenClinical = () => {
+    const bp = getSortedBP();
+    const openClinicalURL =
+      'http://localhost:22221/digipath/matt/ht_demo?dob=' +
+      patient.birthDate +
+      '&gender=' +
+      patient.gender +
+      '&sbp=' +
+      bp[0].systolic +
+      '&dbp=' +
+      bp[0].diastolic +
+      '&id=' +
+      patient.id;
+    window.location.href = openClinicalURL;
+  };
+
   return (
     <>
       {(() => {
@@ -245,6 +269,9 @@ const VitalsOverview: React.FC<VitalsOverviewProps> = ({ patientUuid, patient, p
                     urlLabel={urlLabel}
                   />
                 </div>
+              )}
+              {getSortedBP().length > 0 && (
+                <Button onClick={handleOpenClinical}>Get Open Clinical Recommendation</Button>
               )}
             </div>
           );

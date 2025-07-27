@@ -71,6 +71,7 @@ export default function OrderBasketSearchResults({
   }
 
   if (drugs?.length === 0) {
+    localStorage.removeItem('openClinicalDrug');
     return (
       <Tile className={styles.emptyState}>
         <div>
@@ -155,6 +156,10 @@ const DrugSearchResultItem: React.FC<DrugSearchResultItemProps> = ({ drug, openO
     },
     [orders, setOrders],
   );
+  if (localStorage.getItem('openClinicalDrug') && drug) {
+    // drugItemTemplateOptions.map((orderItem, index) => addToBasket(orderItem));
+    localStorage.removeItem('openClinicalDrug');
+  }
 
   return (
     <>
